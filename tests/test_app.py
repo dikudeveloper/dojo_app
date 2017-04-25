@@ -9,7 +9,12 @@ class TestCreateRoom(unittest.TestCase):
     """
 
     def setUp(self):
-        room_object = Room()
+        self.room_object = Room()
 
     def test_create_room_successfully(self):
-        pass
+        initial_room_count = len(self.room_object.all_rooms)
+        blue_office = self.room_object.create_room('Blue', 'office')
+        self.assertTrue(blue_office)
+        new_room_count = len(self.room_object.all_rooms)
+        self.assertEqual(new_room_count - initial_room_count, 1)
+
