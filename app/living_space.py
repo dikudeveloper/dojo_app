@@ -2,9 +2,15 @@ from app.room import Room
 
 
 class LivingSpace(Room):
-    def __init__(self):
-        super(LivingSpace, self).__init__()
-        self.office = self.person
+    capacity = 4
 
-    def get_room_availability(self):
-        pass
+    def __init__(self, name):
+        self.name = name
+        super(LivingSpace, self).__init__(self.name)
+
+    def __repr__(self):
+        return "<LivingSpace %s>" % self.name
+
+    def __str__(self):
+        return "%s" % self.name
+
