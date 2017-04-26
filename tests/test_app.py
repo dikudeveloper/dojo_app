@@ -19,6 +19,13 @@ class TestCreateRoom(unittest.TestCase):
 
     def test_create_room(self):
         # Office 'White', and Living Space room 'Black' already exist in memory from setUp function
+        # room creation
         self.assertEqual(1, len(self.test_dojo.offices))
         self.assertEqual(1, len(self.test_dojo.livingspaces))
         self.assertEqual(2, len(self.test_dojo.rooms))
+
+        # Duplicate rooms not added to any list
+        """Create a test living space"""
+        self.test_dojo.create_room({"<room_name>": ["Black"], "livingspace": True, "office": False})
+        self.assertEqual(1, len(self.test_dojo.livingspaces))
+
