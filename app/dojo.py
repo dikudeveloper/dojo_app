@@ -1,0 +1,2 @@
+class Dojo(object):
+    pass
