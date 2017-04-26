@@ -1,10 +1,10 @@
 import unittest
 from dojo_application import DojoApplication
 from app.office import Office
+from app.room import Room
 from app.living_space import LivingSpace
 
 from app.my_dojo import MyDojo
-from app import my_dojo
 
 
 class TestCreateRoom(unittest.TestCase):
@@ -12,9 +12,9 @@ class TestCreateRoom(unittest.TestCase):
     def setUp(self):
         self.test_dojo = MyDojo()
 
-        """Create a test living space"""
+        # Create a test living space
         self.test_dojo.create_room({"<room_name>": ["Black"], "livingspace": True, "office": False})
-        """Create a test office"""
+        # Create a test office
         self.test_dojo.create_room({"<room_name>": ["White"], "livingspace": False, "office": True})
 
     def test_create_room(self):
@@ -25,7 +25,6 @@ class TestCreateRoom(unittest.TestCase):
         self.assertEqual(2, len(self.test_dojo.rooms))
 
         # Duplicate rooms not added to any list
-        """Create a test living space"""
+        # """Create a test living space"""
         self.test_dojo.create_room({"<room_name>": ["Black"], "livingspace": True, "office": False})
         self.assertEqual(1, len(self.test_dojo.livingspaces))
-
