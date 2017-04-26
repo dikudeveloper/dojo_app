@@ -1,20 +1,17 @@
 import unittest
-from app.room import Room
+from main_app import MyInteractiveDojoApplication
 
 
 class TestCreateRoom(unittest.TestCase):
-    """Tests for create_room <room_type> <room_name>
-    create_room <room_type> <room_name> creates rooms in the Dojo. Using this command, the user should be able
-    to create as many rooms as possible by specifying multiple room names after the create_room command.
-    """
+    """Tests for create_room <room_type> <room_name>"""
 
     def setUp(self):
-        self.room_object = Room()
+        self.my_dojo_app = MyInteractiveDojoApplication()
 
-    def test_create_room_successfully(self):
-        initial_room_count = len(self.room_object.all_rooms)
-        blue_office = self.room_object.create_room('Blue', 'office')
+    def test_create_single_room_successfully(self):
+        initial_room_count = len(self.my_dojo_app.all_rooms)
+        blue_office = self.my_dojo_app.do_create_room('Blue', 'office')
         self.assertTrue(blue_office)
-        new_room_count = len(self.room_object.all_rooms)
+        new_room_count = len(self.my_dojo_app.all_rooms)
         self.assertEqual(new_room_count - initial_room_count, 1)
 
