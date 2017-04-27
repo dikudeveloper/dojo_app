@@ -2,6 +2,8 @@
 Usage:
     (dojo_app) create_room (livingspace|office) <room_name>...
     (dojo_app) add_person <first_name> <last_name> (Fellow|Staff) [<wants_accommodation>]
+    (dojo_app) print_room <room_name>
+    (dojo_app)
     (dojo_app) (-i | --interactive)
     (dojo_app) (-h | --help)
 Options:
@@ -14,7 +16,6 @@ import cmd
 from docopt import docopt, DocoptExit
 from app_plugins.docopt_extension import docopt_cmd
 from app import my_dojo
-# arguments = docopt(__doc__, version='Dojo Application')
 
 
 class DojoApplication(cmd.Cmd):
@@ -24,7 +25,9 @@ class DojoApplication(cmd.Cmd):
             "==============================================================\n\n" \
             "COMMANDS:\n\n" \
             "1. create_room (livingspace|office) <room_name>...\n" \
-            "2. add_person <first_name> <last_name> <FELLOW> | <STAFF> [wants_accommodation]\n"
+            "2. add_person <first_name> <last_name> (Fellow|Staff) [wants_accommodation]\n" \
+            "3. print_room <room_name>"
+
 
     prompt = '(dojo_app)'
     file = None
@@ -39,6 +42,12 @@ class DojoApplication(cmd.Cmd):
         """Usage: add_person <first_name> <last_name> (Fellow|Staff) [<wants_accommodation>]"""
         my_dojo.add_person(args)
 
+    @docopt_cmd
+    def do_print_room(self, args):
+        """Usage: print_room <room_name>"""
+        my_dojo.print_room(args)
+
+
     def do_quit(self, args):
         print('Good Bye!')
         exit()
@@ -49,16 +58,3 @@ if options["--interactive"]:
     DojoApplication().cmdloop()
 
 print(options)
-
-
-# if __name__ == '__main__':
-#     arguments = docopt(__doc__, version='Dojo Application')
-#     print(arguments)
-#     if arguments['create_room']:
-#         print('create_room is dope')
-#         dojoapp = DojoApplication()
-#         # room_name = arguments['<room_name>']
-#         # room_type = arguments['<room_type>']
-#         # dojoapp.create_room(room_name, room_type)
-#         dojoapp.create_room(arguments['<room_name>'])
-
