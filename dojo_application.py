@@ -1,7 +1,7 @@
 """
 Usage:
     (dojo_app) create_room (livingspace|office) <room_name>...
-    (dojo_app) add_person <first_name> <last_name> <FELLOW> | <STAFF> [wants_accommodation]
+    (dojo_app) add_person <first_name> <last_name> (Fellow|Staff) [<wants_accommodation>]
     (dojo_app) (-i | --interactive)
     (dojo_app) (-h | --help)
 Options:
@@ -33,6 +33,11 @@ class DojoApplication(cmd.Cmd):
     def do_create_room(self, args):
         """Usage: create_room (livingspace|office) <room_name>..."""
         my_dojo.create_room(args)
+
+    @docopt_cmd
+    def do_add_person(self, args):
+        """Usage: add_person <first_name> <last_name> (Fellow|Staff) [<wants_accommodation>]"""
+        my_dojo.add_person(args)
 
     def do_quit(self, args):
         print('Good Bye!')
