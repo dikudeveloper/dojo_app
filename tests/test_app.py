@@ -1,5 +1,4 @@
 import unittest
-from dojo_application import DojoApplication
 from app.office import Office
 from app.room import Room
 from app.living_space import LivingSpace
@@ -18,10 +17,10 @@ class TestMyDojo(unittest.TestCase):
         self.test_my_dojo.create_room({"<room_name>": ["OfficeWhite"], "livingspace": False, "office": True})
         # Create a test person, Fellow who wants accommodation
         self.test_my_dojo.add_person({'<first_name>': 'Joseph', '<last_name>': 'Diku',
-                                      '<wants_accommodation>': 'Y', 'FELLOW': True, 'STAFF': False})
+                                      '<wants_accommodation>': 'Y', 'Fellow': True, 'Staff': False})
         # Create a test person, Staff, who wants accommodation
         self.test_my_dojo.add_person({'<first_name>': 'Master', '<last_name>': 'Chan',
-                                      '<wants_accommodation>': 'Y', 'FELLOW': False, 'STAFF': True})
+                                      '<wants_accommodation>': 'Y', 'Fellow': False, 'Staff': True})
 
     def test_create_room(self):
         # Office 'White', and Living Space 'Black' already exist in memory from setUp function
@@ -40,7 +39,7 @@ class TestMyDojo(unittest.TestCase):
         # Since we have added 2 more livingspaces to 1 former, we should have 3 now in the system
         self.assertEqual(3, len(self.test_my_dojo.livingspaces))
 
-    def test_add_person(self):
+    # def test_add_person(self):
         self.assertEqual(1, len(self.test_my_dojo.fellows))
         self.assertEqual(1, len(self.test_my_dojo.staff))
         self.assertEqual(2, len(self.test_my_dojo.people))
