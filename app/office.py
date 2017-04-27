@@ -4,6 +4,7 @@ from app.room import Room
 class Office(Room):
     capacity = 6
     office_count = []
+    room_type = 'office'
 
     def __init__(self, name):
         """Initializes an Office Object"""
