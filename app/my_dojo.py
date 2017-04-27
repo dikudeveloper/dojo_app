@@ -12,18 +12,18 @@ from app.dojo import Dojo
 class MyDojo(object):
     def __init__(self):
         self.rooms = []
-        self.vacant_rooms = []
+        self.empty_rooms = []
+        self.empty_livingspaces = []
+        self.empty_offices = []
         self.offices = []
-        self.vacant_offices = []
         self.livingspaces = []
-        self.vacant_livingspaces = []
         self.people = []
         self.allocated_people = []
         self.unallocated_people = []
-        self.fellows = []
         self.allocated_fellows = []
-        self.staff = []
         self.allocated_staff = []
+        self.fellows = []
+        self.staff = []
 
     def create_room(self, args):
         """Create new room(s)"""
