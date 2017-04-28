@@ -69,6 +69,16 @@ class TestMyDojo(unittest.TestCase):
         self.assertEqual(3, len(self.test_my_dojo.offices[0].occupants))
         self.assertEqual(1, len(self.test_my_dojo.livingspaces))
 
+    def test_load_people_from_input_file(self):
+        # Create a new office to store more people from an input text file"""
+        self.test_my_dojo.create_room({'<room_name>': ['Office123'], 'livingspace': False, 'office': True})
+        # Load 7 new people from input_file.txt text file
+        self.test_my_dojo.load_people({'<filename>': 'load_input_file.txt'})
+        # Dojo app should now have people (especially in offices because each person gets an office)
+        self.assertEqual(9, len(self.test_my_dojo.people))
+
+
+
 
 
 
