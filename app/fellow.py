@@ -12,3 +12,6 @@ class Fellow(Person):
 
     def __repr__(self):
         return "<Fellow %s>" % self.name
+
+    def __str__(self):
+        return "%s" % self.name
