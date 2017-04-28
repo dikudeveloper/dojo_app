@@ -13,10 +13,12 @@ This is a Room Allocation System with a Command Line User Interface that was dev
 * load_state `<sqlite_database>`
 
 # Motivation
-This system will be used to automatically allocate spaces to people at random.
+This system will be used to automate the random allocation of spaces to Fellows and Staff at Andela Kenya's Dojo facility.
 
 # Installation
 To Install, make sure you have Python 3 installed, then run:
-python dojo_app.py 
+
+* pip install -r requirements.txt*
+* python dojo_app.py -i*
 
 
