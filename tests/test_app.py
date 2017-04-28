@@ -22,26 +22,58 @@ class TestMyDojo(unittest.TestCase):
         self.test_my_dojo.add_person({'<first_name>': 'Master', '<last_name>': 'Chan',
                                       '<wants_accommodation>': 'Y', 'Fellow': False, 'Staff': True})
 
-    def test_create_room(self):
-        # Office 'White', and Living Space 'Black' already exist in memory from setUp function
-        # test single room creation
+    def test_create_single_room_office(self):
+        # Office 'White' exists in memory from setUp function
         self.assertEqual(1, len(self.test_my_dojo.offices))
+
+    def test_create_single_room_livingspace(self):
+        # LivingSpace 'Black' exists in memory from setUp function
         self.assertEqual(1, len(self.test_my_dojo.livingspaces))
+
+    def test_total_number_of_rooms_created(self):
+        # two rooms exist in memory from setUp function
         self.assertEqual(2, len(self.test_my_dojo.rooms))
 
-        # Duplicate rooms not added to any list
-        # """Create another test living space"""
-        self.test_my_dojo.create_room({"<room_name>": ["Black"], "livingspace": True, "office": False})
+    def test_duplicate_rooms_not_created(self):
+        # Create another test living space room with name 'LivingBlack' as before and test that count is still 1
+        # Joseph (Fellow wanted_accommodation), and now we create another Living Space room called 'LivingBlack'
+        self.test_my_dojo.create_room({"<room_name>": ["LivingBlack"], "livingspace": True, "office": False})
         self.assertEqual(1, len(self.test_my_dojo.livingspaces))
 
-        # Test many creation of many rooms
-        self.test_my_dojo.create_room({"<room_name>": ['LivingBlack', 'LivingYellow'], "livingspace": True, "office": False})
-        # Since we have added 2 more livingspaces to 1 former, we should have 3 now in the system
+    def test_create_multiple_rooms(self):
+        # Create 2 other LivingSpace rooms;
+        self.test_my_dojo.create_room({"<room_name>": ['LivingRed', 'LivingYellow'], "livingspace": True, "office": False})
+        # Since we have added 2 new livingspaces to 1 former, there are now 3 LivingSpaces in the Dojo
         self.assertEqual(3, len(self.test_my_dojo.livingspaces))
 
-    # def test_add_person(self):
+    def test_add_fellow(self):
         self.assertEqual(1, len(self.test_my_dojo.fellows))
+
+    def test_add_staff(self):
         self.assertEqual(1, len(self.test_my_dojo.staff))
-        self.assertEqual(2, len(self.test_my_dojo.people))
-        self.testfellow = self.test_my_dojo.people[0]
-        self.teststaff = self.test_my_dojo.people[1]
+
+    def test_total_number_of_people_added(self):
+        self.assertEqual(2, len(self.test_my_dojo.allocated_people))
+
+    def test_add_fellow_with_accommodation(self):
+        self.test_my_dojo.add_person({'<first_name>': 'Ben', '<last_name>': 'WWW',
+                                      '<wants_accommodation>': 'Y', 'Fellow': True, 'Staff': False})
+        # at this point, there were 2 occupants in the only office created so far, 'OfficeWhite'; 1 more is added
+        # at this point, the total capacity of all livingspaces should be 12 (3 livingspaces * 4 occupants)
+        self.assertEqual(3, len(self.test_my_dojo.offices[0].occupants))
+
+    def test_add_staff_with_accommodation(self):
+        self.test_my_dojo.add_person({'<first_name>': 'Mark', '<last_name>': 'Zuckerberg',
+                                      '<wants_accommodation>': 'Y', 'Fellow': False, 'Staff': True})
+        # at this point, there were 3 occupants in the only Office created; and total LivingSpaces is 1
+        self.assertEqual(3, len(self.test_my_dojo.offices[0].occupants))
+        self.assertEqual(1, len(self.test_my_dojo.livingspaces))
+
+
+
+
+
+
+
+
+
