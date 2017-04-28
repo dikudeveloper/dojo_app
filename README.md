@@ -3,7 +3,7 @@ This is a Room Allocation System with a Command Line User Interface that was dev
 
 # Usage
 * create_room `<room_type> <room_name>`
-* add_person `<person_name> <FELLOW | STAFF> [wants_accommodation]`
+* add_person `<person_name> <Fellow|Staff> [wants_accommodation]`
 * print_room `<room_name>`
 * print_allocations `[-o=filename]`
 * print_unallocated `[-o=filename]`
