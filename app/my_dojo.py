@@ -81,41 +81,52 @@ class MyDojo(object):
             # add Fellow
             new_person = Fellow('%s %s' % (first_name, last_name))
             self.fellows.append(new_person)
+            self.people.append(new_person)
             # then, allocate an office randomly, if available
             if self.offices:
                 self.get_status_of_empty_offices()
-                office_choice = random.choice(self.empty_offices)
-                office_choice.occupants.append(new_person)
-                # self.fellows.append(new_person)
-                self.allocated_fellows.append(new_person)
-                self.allocated_people.append(new_person)
-                print('Fellow %s %s has been successfully added' % (first_name, last_name))
-                print('%s has been allocated the office %s' % (first_name, office_choice))
-                if wants_accommodation == 'Y':
-                    self.get_status_of_empty_livingspaces()
-                    if len(self.empty_livingspaces) > 0:
-                        livingspaces_choice = random.choice(self.empty_livingspaces)
-                        livingspaces_choice.occupants.append(new_person)
-                        print('%s has been allocated the livingspace %s' % (first_name, livingspaces_choice))
-                    else:
-                        print('There are no LivingSpaces at the moment! Create a LivingSpace using \'create_room\'')
+                if len(self.empty_offices) > 0:
+                    office_choice = random.choice(self.empty_offices)
+                    office_choice.occupants.append(new_person)
+                    # self.fellows.append(new_person)
+                    self.allocated_fellows.append(new_person)
+                    self.allocated_people.append(new_person)
+                    print('Fellow %s %s has been successfully added' % (first_name, last_name))
+                    print('%s has been allocated the office %s' % (first_name, office_choice))
+
+                    if wants_accommodation == 'Y':
+                        self.get_status_of_empty_livingspaces()
+                        if len(self.empty_livingspaces) > 0:
+                            livingspaces_choice = random.choice(self.empty_livingspaces)
+                            livingspaces_choice.occupants.append(new_person)
+                            print('%s has been allocated the livingspace %s' % (first_name, livingspaces_choice))
+                        else:
+                            print('There are no LivingSpaces at the moment! Create a LivingSpace using \'create_room\'')
+                else:
+                    print('Sorry!!! There are no vacant spaces in the available offices at the moment. '
+                          'Please create a new office using \'create_room\' command!')
             else:
-                print('Sorry!!! There are no available offices at the moment. Try again!')
+                print('NO OFFICES! Please create an Office and retry!')
         else:
             if staff:
                 # add staff
                 new_person = Staff('%s %s' % (first_name, last_name))
                 self.staff.append(new_person)
+                self.people.append(new_person)
                 # then allocate an Office randomly if available
                 if self.offices:
                     self.get_status_of_empty_offices()
-                    office_choice = random.choice(self.empty_offices)
-                    office_choice.occupants.append(new_person)
-                    # self.staff.append(new_person)
-                    self.allocated_staff.append(new_person)
-                    self.allocated_people.append(new_person)
-                    print('Staff %s %s has been successfully added' % (first_name, last_name))
-                    print('%s has been allocated the office %s' % (first_name, office_choice))
+                    if len(self.empty_offices) > 0:
+                        office_choice = random.choice(self.empty_offices)
+                        office_choice.occupants.append(new_person)
+                        # self.staff.append(new_person)
+                        self.allocated_staff.append(new_person)
+                        self.allocated_people.append(new_person)
+                        print('Staff %s %s has been successfully added' % (first_name, last_name))
+                        print('%s has been allocated the office %s' % (first_name, office_choice))
+                    else:
+                        print('Sorry!!! There are no vacant spaces in the available offices at the moment. '
+                              'Please create a new office using \'create_room\' command!')
 
     def get_status_of_empty_offices(self):
         """empty offices and empty livingspaces"""
@@ -177,3 +188,29 @@ class MyDojo(object):
                     print('OUTPUT OF PRINT ALLOCATIONS HAS BEEN SAVED TO FILE: %s' % (args['--o']))
             else:
                 print(print_output)
+
+    def print_unallocated(self, args):
+        """Prints a list of allocations onto the screen.
+        Specifying the optional -o option outputs the registered allocations to a text file
+        """
+        if len(self.rooms) == 0:
+            print('The Dojo has NO Rooms. Please create rooms using \'create_room\'')
+        else:
+            print_output = ''
+            if len(self.people) > 0:
+                for person in self.people:
+                    # Get unallocated people
+                    if person not in self.allocated_people:
+                        print_output += person.name + "\n"
+                    # Populate unallocated_people list
+                    # if person not in self.unallocated_people:
+                    #     self.unallocated_people.append(person)
+                if args['--o']:
+                    # Open 'filename' in mode wt and return file object, f
+                    with open(args['--o'], 'wt') as f:
+                        f.write(print_output)
+                        print('OUTPUT OF PRINT ALLOCATIONS HAS BEEN SAVED TO FILE: %s' % (args['--o']))
+                else:
+                    print(print_output)
+            else:
+                print('NO PEOPLE IN THE SYSTEM!!')

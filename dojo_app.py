@@ -28,9 +28,9 @@ class DojoApplication(cmd.Cmd):
             "COMMANDS:\n\n" \
             "1. create_room (livingspace|office) <room_name>...\n" \
             "2. add_person <first_name> <last_name> (Fellow|Staff) [wants_accommodation]\n" \
-            "3. print_room <room_name>" \
-            "4. print_allocations [--o=filename.txt]" \
-            "5. print_unallocated [--o=filename.txt]"
+            "3. print_room <room_name>\n" \
+            "4. print_allocations [--o=filename.txt]\n" \
+            "5. print_unallocated [--o=filename.txt]\n"
 
 
     prompt = '(dojo_app)'
