@@ -12,3 +12,6 @@ class Staff(Person):
 
     def __repr__(self):
         return "<Staff %s>" % self.name
+
+    def __str__(self):
+        return "%s" % self.name
