@@ -31,8 +31,7 @@ class MyDojo(object):
         for room_name in args['<room_name>']:
             room_names_list = [room_object.name.upper() for room_object in self.rooms]
             if room_name.upper() in room_names_list:
-                print('The room you tried to create already exists in the Dojo!')
-                return
+                print('Room %s that you tried to create already exists in the Dojo!' % room_name)
             elif args['livingspace']:
                 new_livingspace_object = LivingSpace(room_name)
                 self.livingspaces.append(new_livingspace_object)
@@ -87,16 +86,19 @@ class MyDojo(object):
                 self.get_status_of_empty_offices()
                 office_choice = random.choice(self.empty_offices)
                 office_choice.occupants.append(new_person)
-                self.fellows.append(new_person)
+                # self.fellows.append(new_person)
                 self.allocated_fellows.append(new_person)
                 self.allocated_people.append(new_person)
                 print('Fellow %s %s has been successfully added' % (first_name, last_name))
                 print('%s has been allocated the office %s' % (first_name, office_choice))
-                if wants_accommodation:
+                if wants_accommodation == 'Y':
                     self.get_status_of_empty_livingspaces()
-                    livingspaces_choice = random.choice(self.empty_livingspaces)
-                    livingspaces_choice.occupants.append(new_person)
-                    print('%s has been allocated the office %s' % (first_name, livingspaces_choice))
+                    if len(self.empty_livingspaces) > 0:
+                        livingspaces_choice = random.choice(self.empty_livingspaces)
+                        livingspaces_choice.occupants.append(new_person)
+                        print('%s has been allocated the livingspace %s' % (first_name, livingspaces_choice))
+                    else:
+                        print('There are no LivingSpaces at the moment! Create a LivingSpace using \'create_room\'')
             else:
                 print('Sorry!!! There are no available offices at the moment. Try again!')
         else:
@@ -109,48 +111,11 @@ class MyDojo(object):
                     self.get_status_of_empty_offices()
                     office_choice = random.choice(self.empty_offices)
                     office_choice.occupants.append(new_person)
-                    self.staff.append(new_person)
+                    # self.staff.append(new_person)
                     self.allocated_staff.append(new_person)
                     self.allocated_people.append(new_person)
                     print('Staff %s %s has been successfully added' % (first_name, last_name))
                     print('%s has been allocated the office %s' % (first_name, office_choice))
-
-        # Both Staff and Fellows must get accommodation
-        # name = args['<first_name>'] + ' ' + args['<last_name>']
-        # wants_accommodation = 'Yes' if args['<wants_accommodation>'] is 'Y' else 'No'
-        # if wants_accommodation == 'N':
-        #     if args['Staff']:
-        #         new_person = Staff(name)
-        #         self.staff.append(new_person)
-        #     elif args['Fellow']:
-        #         new_person = Fellow(name)
-        #         self.fellows.append(new_person)
-        # else:
-        #     if self.offices:
-        #         self.get_status_of_empty_rooms()
-                # if not self.empty_offices:
-                #     print('Sorry!! There are no empty offices at this time.')
-                #     return
-                # if args['Staff']:
-                #     office_choice = random.choice(self.empty_offices)
-                #     new_person = Staff(name)
-                #     office_choice.occupants.append(new_person)
-                #     self.staff.append(new_person)
-                #     self.allocated_staff.append(new_person)
-                #     print('Staff %s has been successfully added' % name)
-                # elif args['Fellow']:
-                #     office_choice = random.choice(self.empty_offices)
-                #     new_person = Fellow(name)
-                #     office_choice.occupants.append(new_person)
-                #     self.fellows.append(new_person)
-                #     self.allocated_fellows.append(new_person)
-                #     print('Fellow %s has been successfully added' % name)
-                #     self.allocated_people.append(new_person)
-            # else:
-            #     print('Sorry!!! There are no offices in the system.')
-            #     return
-            # self.people.append(new_person)
-            # self.success_added_person(new_person, wants_accommodation)
 
     def get_status_of_empty_offices(self):
         """empty offices and empty livingspaces"""
@@ -165,7 +130,6 @@ class MyDojo(object):
                     self.empty_offices.remove(office)
                     self.empty_rooms.remove(office)
 
-
     def get_status_of_empty_livingspaces(self):
         for livingspace in self.livingspaces:
             if len(livingspace.occupants) < livingspace.capacity:
@@ -177,23 +141,39 @@ class MyDojo(object):
                     self.empty_livingspaces.remove(livingspace)
                     self.empty_rooms.remove(livingspace)
 
-    def get_status_of_empty_rooms(self):
-        """empty offices and empty livingspaces"""
-        for office in self.offices:
-            if len(office.occupants) < office.capacity:
-                if office not in self.empty_offices:
-                    self.empty_offices.append(office)
-                    self.empty_rooms.append(office)
-            elif len(office.occupants) >= office.capacity:
-                if office in self.empty_offices:
-                    self.empty_offices.remove(office)
-                    self.empty_rooms.remove(office)
-        for livingspace in self.livingspaces:
-            if len(livingspace.occupants) < livingspace.capacity:
-                if livingspace not in self.empty_livingspaces:
-                    self.empty_livingspaces.append(livingspace)
-                    self.empty_rooms.append(livingspace)
-            elif len(livingspace.occupants) >= livingspace.capacity:
-                if livingspace in self.empty_livingspaces:
-                    self.empty_livingspaces.remove(livingspace)
-                    self.empty_rooms.remove(livingspace)
+    def print_room(self, args):
+        """Print the names of all the people in room_name on the screen"""
+        room_name = args["<room_name>"]
+        if room_name not in [room.name for room in self.rooms]:
+            print("Sorry!! The room you have entered does not exist. Try creating it with \'create_room\' command")
+            return
+        for room in self.rooms:
+            if room.name == room_name:
+                if room.occupants:
+                    for person in room.occupants:
+                        print('Room %s: %s' % (room.name, person.name))
+                else:
+                    print("This room has no occupants.")
+
+    def print_allocations(self, args):
+        """Prints a list of allocations onto the screen.
+        Specifying the optional -o option outputs the registered allocations to a text file
+        """
+        if len(self.rooms) == 0:
+            print('The Dojo has NO Rooms. Please create rooms using \'create_room\'')
+        else:
+            print_output = ''
+            for room in self.rooms:
+                print_output += room.name + '\n'
+                print_output += '-' * 30 + '\n'
+                if room.occupants:
+                    print_output += ','.join([person.name for person in room.occupants]) + '\n\n'
+                else:
+                    print_output += 'NO OCCUPANTS IN THIS ROOM!.\n'
+            if args['--o']:
+                # Open 'filename' in mode wt and return file object, f
+                with open(args['--o'], 'wt') as f:
+                    f.write(print_output)
+                    print('OUTPUT OF PRINT ALLOCATIONS HAS BEEN SAVED TO FILE: %s' % (args['--o']))
+            else:
+                print(print_output)

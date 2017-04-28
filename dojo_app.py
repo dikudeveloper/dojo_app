@@ -3,6 +3,8 @@ Usage:
     (dojo_app) create_room (livingspace|office) <room_name>...
     (dojo_app) add_person <first_name> <last_name> (Fellow|Staff) [<wants_accommodation>]
     (dojo_app) print_room <room_name>
+    (dojo_app) print_allocations [--o=filename.txt]
+    (dojo_app) print_unallocated [--o=filename.txt]
     (dojo_app)
     (dojo_app) (-i | --interactive)
     (dojo_app) (-h | --help)
@@ -26,7 +28,9 @@ class DojoApplication(cmd.Cmd):
             "COMMANDS:\n\n" \
             "1. create_room (livingspace|office) <room_name>...\n" \
             "2. add_person <first_name> <last_name> (Fellow|Staff) [wants_accommodation]\n" \
-            "3. print_room <room_name>"
+            "3. print_room <room_name>" \
+            "4. print_allocations [--o=filename.txt]" \
+            "5. print_unallocated [--o=filename.txt]"
 
 
     prompt = '(dojo_app)'
@@ -46,6 +50,16 @@ class DojoApplication(cmd.Cmd):
     def do_print_room(self, args):
         """Usage: print_room <room_name>"""
         my_dojo.print_room(args)
+
+    @docopt_cmd
+    def do_print_allocations(self, args):
+        """Usage: print_allocations [--o=filename.txt]"""
+        my_dojo.print_allocations(args)
+
+    @docopt_cmd
+    def do_print_unallocated(self, args):
+        """Usage: print_unallocated [--o=filename.txt]"""
+        my_dojo.print_unallocated(args)
 
 
     def do_quit(self, args):
