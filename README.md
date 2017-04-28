@@ -17,7 +17,7 @@ This system will be used to automate the random allocation of spaces to Fellows 
 
 # Installation
 To Install, make sure you have Python 3 installed, then run:
-** pip install -r requirements.txt **
-** python dojo_app.py -i **
+*pip install -r requirements.txt*
+*python dojo_app.py -i*
 
 
