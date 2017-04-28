@@ -30,7 +30,9 @@ class DojoApplication(cmd.Cmd):
             "2. add_person <first_name> <last_name> (Fellow|Staff) [wants_accommodation]\n" \
             "3. print_room <room_name>\n" \
             "4. print_allocations [--o=filename.txt]\n" \
-            "5. print_unallocated [--o=filename.txt]\n"
+            "5. print_unallocated [--o=filename.txt]\n" \
+            "6. reallocate_person <person_identifier> <new_room_name>\n" \
+            "7. load_people <filename>\n"
 
 
     prompt = '(dojo_app)'
@@ -61,6 +63,15 @@ class DojoApplication(cmd.Cmd):
         """Usage: print_unallocated [--o=filename.txt]"""
         my_dojo.print_unallocated(args)
 
+    @docopt_cmd
+    def do_reallocate_person(self, args):
+        """Usage: reallocate_person <person_identifier> <new_room_name>"""
+        my_dojo.reallocate_person(args)
+
+    @docopt_cmd
+    def do_load_people(self, args):
+        """Usage: load_people <filename>"""
+        my_dojo.load_people(args)
 
     def do_quit(self, args):
         print('Good Bye!')

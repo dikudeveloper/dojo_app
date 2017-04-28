@@ -214,3 +214,34 @@ class MyDojo(object):
                     print(print_output)
             else:
                 print('NO PEOPLE IN THE SYSTEM!!')
+
+    def load_people(self, args):
+        """Adds people to rooms from a txt file.
+        ----Sample for text input format--------
+        OLUWAFEMI SULE FELLOW Y
+        DOMINIC WALTERS STAFF
+        SIMON PATTERSON FELLOW Y
+        """
+        filename = args["<filename>"]
+        with open(filename, 'r') as input_file:
+            people = input_file.readlines()
+            for person in people:
+                person_list = person.split()
+                if len(person_list) > 0:
+                    first_name = person_list[0]
+                    last_name = person_list[1]
+                    person_type = person_list[2]
+                    wants_accommodation = 'N'
+                    if len(person) == 4:
+                        wants_accommodation = person[3]
+
+                    if person_type == 'FELLOW':
+                        staff_ = False
+                        fellow_ = True
+                        self.add_person({'<first_name>': first_name, '<last_name>': last_name,
+                                         '<wants_accommodation>': wants_accommodation, 'Fellow': True,
+                                         'Staff': False})
+                    else:
+                        if person_type == 'STAFF':
+                            self.add_person({'<first_name>': first_name, '<last_name>': last_name,
+                                             '<wants_accommodation>': wants_accommodation, 'Fellow': True,'Staff': False})
